@@ -1,0 +1,9 @@
+*pyc
+*.log
+*.zip
+*.whl
+log
+benchmark/ckpt
+benchmark/result
+benchmark/data
+benchmark/models
