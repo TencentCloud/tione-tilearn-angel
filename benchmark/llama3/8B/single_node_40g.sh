@@ -42,7 +42,7 @@ CMD="torchrun  $DISTRIBUTED_ARGS \
     --cutoff_len $SEQ_LENGTH \
     --packing true \
     --max_length $SEQ_LENGTH \
-    --disable_gradient_checkpointing true \
+    --disable_gradient_checkpointing false \
     --preprocessing_num_workers 4 \
     --per_device_train_batch_size $BATCH_SIZE_PER_GPU \
     --per_device_eval_batch_size 1 \
@@ -68,7 +68,7 @@ CMD="torchrun  $DISTRIBUTED_ARGS \
 ### RUN Task CMD
 echo ${CMD}
 echo "TILEARN - BASELINE - BASH GLOBAL_BATCH_SZIE_PER_NODE:$GLOBAL_BATCH_SZIE_PER_NODE"
-eval ${CMD} 2>&1 | tee ./log/baseline.log
+eval ${CMD} 2>&1 | tee ./log/baseline_40g.log
 
 errorCode=${PIPESTATUS[0]}
 #errorCode=$?

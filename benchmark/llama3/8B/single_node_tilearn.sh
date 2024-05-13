@@ -16,8 +16,8 @@ MODEL_NAME=Meta-Llama-3-8B
 TEMPLATE=llama3
 SEQ_LENGTH=4096
 BATCH_SIZE_PER_GPU=1
+GRADIENT_ACCUMULATION_STEPS=32
 BASE_PATH=../../
-#MODEL_PATH=$BASE_PATH/ckpt/$MODEL_NAME/sft/
 MODEL_PATH=$BASE_PATH/models/$MODEL_NAME
 DATA_PATH=$BASE_PATH/data
 RESULT_PATH=$BASE_PATH/ckpt/$MODEL_NAME/sft
@@ -25,6 +25,7 @@ RESULT_PATH=$BASE_PATH/ckpt/$MODEL_NAME/sft
 export TILEARN_DEBUG=1
 export TILEARN_HYBRID_TP_SIZE=1
 export TILEARN_HYBRID_PP_SIZE=2
+GLOBAL_BATCH_SZIE_PER_NODE=$(($GPUS_PER_NODE * $BATCH_SIZE_PER_GPU * $GRADIENT_ACCUMULATION_STEPS / $TILEARN_HYBRID_TP_SIZE / $TILEARN_HYBRID_PP_SIZE))
 
 ### Create Task CMD
 CMD="torchrun  $DISTRIBUTED_ARGS \
@@ -47,7 +48,7 @@ CMD="torchrun  $DISTRIBUTED_ARGS \
     --preprocessing_num_workers 4 \
     --per_device_train_batch_size $BATCH_SIZE_PER_GPU \
     --per_device_eval_batch_size 1 \
-    --gradient_accumulation_steps 16 \
+    --gradient_accumulation_steps $GRADIENT_ACCUMULATION_STEPS \
     --lr_scheduler_type cosine \
     --logging_steps 10 \
     --warmup_steps 3 \
@@ -68,7 +69,8 @@ CMD="torchrun  $DISTRIBUTED_ARGS \
 
 ### RUN Task CMD
 echo ${CMD}
-eval ${CMD} 2>&1 | tee ./tilearn.log
+echo "TILEARN - HYBRID PARALLEL - BASH GLOBAL_BATCH_SZIE_PER_NODE:$GLOBAL_BATCH_SZIE_PER_NODE"
+eval ${CMD} 2>&1 | tee ./log/tilearn.log
 
 errorCode=${PIPESTATUS[0]}
 #errorCode=$?
