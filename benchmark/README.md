@@ -51,7 +51,7 @@ llama3 8b 8xA800 80G测试结果如下
 Method | mbs | grad acc | gloabal bs | seqlength | GPU Mem | sec/iter | tokens/sec/gpu 
 ---- |-----|-----|------|-----------| ---- | ---- | ---- 
 baseline flashattn2 | 1 | 1 | 8    | 4096      | 65805MiB | 1.3 | 3150.8
-baseline flashattn2 | 1  | 16 | 128 |  4096     | 67915MiB | 22.03 | 2974.852474
+baseline flashattn2 | 1  | 16 | 128 |  4096     | 67915MiB | 22.03 | 2974.9
 tilearn.llm tp=2 pp=2 | 1 | 64 | 128  | 4096      | 51585MiB | 16.23 | 4037.9
 
 llama3 8b 8xA100 40G测试结果如下
@@ -60,7 +60,7 @@ Method | mbs | grad acc | gloabal bs | seqlength | GPU Mem | sec/iter | tokens/s
 ---- |-----|-----|-------------|-----------| ---- | ---- | ---- 
 baseline flashattn2 | 1 | 1 | 8           | 4096      | 40081MiB | 1.67 | 2452.7
 baseline flashattn2 | 1  | 16 | 128 |  4096     | 40127MiB | 30.79 | 2128.5
-tilearn.llm tp=2 pp=2 | 1 | 64 | 128   | 4096      | 36343MiB | 19.65 | 3335.165394
+tilearn.llm tp=2 pp=2 | 1 | 64 | 128   | 4096      | 36343MiB | 19.65 | 3335.2
 
 
 ### 附录

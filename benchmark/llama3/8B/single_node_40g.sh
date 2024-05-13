@@ -66,6 +66,9 @@ CMD="torchrun  $DISTRIBUTED_ARGS \
     #--num_train_epochs 1.0 \
 
 ### RUN Task CMD
+if [ ! -d "./log/" ];then
+  mkdir log
+fi
 echo ${CMD}
 echo "TILEARN - BASELINE - BASH GLOBAL_BATCH_SZIE_PER_NODE:$GLOBAL_BATCH_SZIE_PER_NODE"
 eval ${CMD} 2>&1 | tee ./log/baseline_40g.log
