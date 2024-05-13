@@ -63,23 +63,23 @@ baseline flashattn2 | 1  | 16 | 128 |  4096     | 40127MiB | 30.79 | 2128.5
 tilearn.llm tp=2 pp=2 | 1 | 64 | 128   | 4096      | 36343MiB | 19.65 | 3335.165394
 
 
-## 附录
+### 附录
 详细配置请参考文档 [tilearn-llm](https://pypi.org/project/tilearn-llm/), [T平台训练加速功能介绍](https://cloud.tencent.com/document/product/851/76701)
 
-### 可选：自定义镜像使用tilearn-llm、tilearn.op
+#### 可选：自定义镜像使用tilearn-llm、tilearn.op
 
 镜像中的 torch.__version__=='2.1.2'，其他版本请联系加速团队
 ```bash
-# tilearn-llm>=0.9.2 
+# tilearn-llm>=0.9.3
 # tilearn.op>=0.2.1.172
 pip3 uninstall -y tilearn.llm tilearn.ops
-pip3 install tilearn-llm==0.9.2 -i https://pypi.tuna.tsinghua.edu.cn/simple 
+pip3 install tilearn-llm==0.9.3 -i https://pypi.tuna.tsinghua.edu.cn/simple 
 pip3 install tilearn.ops==0.2.1.172 -i https://g-bnvx3728-pypi.pkg.coding.net/tione/tilearn/simple
 wget https://tione-public-cos-1308945662.cos.ap-shanghai.myqcloud.com/tilearn/hybrid_parallel/colossalai-0.3.4.1-cp310-cp310-linux_x86_64.whl
 pip3 install colossalai-0.3.4.1-cp310-cp310-linux_x86_64.whl
 ```
 
-### 可选：平台镜像内更新tilearn-llm、tilearn.op版本
+#### 可选：平台镜像内更新tilearn-llm、tilearn.op版本
 在镜像内更新最新的 tilearn.llm 和 tilearn.ops 包
 ```bash
 # tilearn-llm>=0.9.3 
@@ -89,7 +89,7 @@ pip3 install tilearn-llm==0.9.3 -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip3 install tilearn.ops==0.2.1.172 -i https://g-bnvx3728-pypi.pkg.coding.net/tione/tilearn/simple
 ```
 
-### 可选：关闭模式参数随机初始化
+#### 可选：关闭模式参数随机初始化
 当前采用模型随机初始化测试，如果要关闭，在single_node.sh和single_node_tilearn.sh脚本内，设置LF_MODEL_RANDOM_INIT环境变量为0
 此时MODEL_PATH路径下需要提供huggingface完整的模型config和模型参数
 ```bash
@@ -99,7 +99,7 @@ export LF_MODEL_RANDOM_INIT=0
 MODEL_PATH=$BASE_PATH/models/$MODEL_NAME
 ```
 
-### 可选：训练代码配置tilearn 3d并行
+#### 可选：训练代码配置tilearn 3d并行
 方法一：环境变量配置
 ```bash
 export TILEARN_HYBRID_TP_SIZE=1
@@ -139,7 +139,7 @@ def main():
     run_exp()
 ```
 
-### 可选：修改demo训练代码
+#### 可选：修改demo训练代码
 
 我们采用开源库[LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory/) 作为demo案例集，LLaMA-Factory对huggingface trainer进行封装，可在以下文件内修改训练代码
 ```python
@@ -177,6 +177,6 @@ def run_sft(
             plot_loss(training_args.output_dir, keys=["loss", "eval_loss"])
 ```
 
-## Acknowledgement
+### Acknowledgement
 本案例集受益于 [ColossalAI](https://github.com/hpcaitech/ColossalAI), [transformers](https://github.com/huggingface/transformers), [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory/),
 [flash-attention](https://github.com/Dao-AILab/flash-attention) 和 [pytorch](https://github.com/pytorch/pytorch), 感谢以上作者的付出。 
