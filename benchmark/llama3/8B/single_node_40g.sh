@@ -16,11 +16,14 @@ MODEL_NAME=Meta-Llama-3-8B
 TEMPLATE=llama3
 SEQ_LENGTH=4096
 BATCH_SIZE_PER_GPU=1
+GRADIENT_ACCUMULATION_STEPS=1
 BASE_PATH=../../
 #MODEL_PATH=$BASE_PATH/ckpt/$MODEL_NAME/sft/
 MODEL_PATH=$BASE_PATH/models/$MODEL_NAME
 DATA_PATH=$BASE_PATH/data
 RESULT_PATH=$BASE_PATH/ckpt/$MODEL_NAME/sft
+
+GLOBAL_BATCH_SZIE_PER_NODE=$(($GPUS_PER_NODE * $BATCH_SIZE_PER_GPU * $GRADIENT_ACCUMULATION_STEPS))
 
 ### Create Task CMD
 CMD="torchrun  $DISTRIBUTED_ARGS \
@@ -43,7 +46,7 @@ CMD="torchrun  $DISTRIBUTED_ARGS \
     --preprocessing_num_workers 4 \
     --per_device_train_batch_size $BATCH_SIZE_PER_GPU \
     --per_device_eval_batch_size 1 \
-    --gradient_accumulation_steps 1 \
+    --gradient_accumulation_steps $GRADIENT_ACCUMULATION_STEPS \
     --lr_scheduler_type cosine \
     --logging_steps 10 \
     --warmup_steps 20 \
@@ -64,7 +67,8 @@ CMD="torchrun  $DISTRIBUTED_ARGS \
 
 ### RUN Task CMD
 echo ${CMD}
-eval ${CMD} 2>&1 | tee ./baseline_40g.log
+echo "TILEARN - BASELINE - BASH GLOBAL_BATCH_SZIE_PER_NODE:$GLOBAL_BATCH_SZIE_PER_NODE"
+eval ${CMD} 2>&1 | tee ./log/baseline_40g.log
 
 errorCode=${PIPESTATUS[0]}
 #errorCode=$?
