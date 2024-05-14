@@ -4,7 +4,7 @@
 
 详细内容请参考文档 [tilearn-llm](https://pypi.org/project/tilearn-llm/), [T平台训练加速功能介绍](https://cloud.tencent.com/document/product/851/76701)
 
-具体demo见benchmrak文件夹和benchmra/README.md
+具体demo见benchmark文件夹和benchmark/README.md
 
 ### 附录
 ### 可选：自定义镜像使用tilearn-llm、tilearn.ops
