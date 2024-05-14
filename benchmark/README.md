@@ -4,10 +4,10 @@
 #### 1.1 运行镜像
 推荐使用平台内置镜像：tilearn-llm1.0-torch2.1-angel-vllm1.0-py3.10-cuda12.1-gpu, 在自定义镜像种使用该功能请参考附录
 
-镜像中已经安装相关加速包tilearn-llm、tilearn.op 版本如下
+镜像中已经安装相关加速包tilearn-llm、tilearn.ops 版本如下
 ```bash
 tilearn-llm>=0.9.3
-tilearn.op>=0.2.1.172
+tilearn.ops>=0.2.1.172
 ```
 
 #### 1.2 下载代码
@@ -52,7 +52,7 @@ Method | mbs | grad acc | gloabal bs | seqlength | GPU Mem | sec/iter | tokens/s
 ---- |-----|-----|------|-----------| ---- | ---- | ---- 
 baseline flashattn2 | 1 | 1 | 8    | 4096      | 65805MiB | 1.3 | 3150.8
 baseline flashattn2 | 1  | 16 | 128 |  4096     | 67915MiB | 22.03 | 2974.9
-tilearn.llm tp=2 pp=2 | 1 | 64 | 128  | 4096      | 51585MiB | 16.23 | 4037.9
+tilearn.llm tp=1 pp=2 | 1 | 32 | 128  | 4096      | 51585MiB | 16.23 | 4037.9
 
 llama3 8b 8xA100 40G测试结果如下
 
@@ -66,12 +66,12 @@ tilearn.llm tp=2 pp=2 | 1 | 64 | 128   | 4096      | 36343MiB | 19.65 | 3335.2
 ### 附录
 详细配置请参考文档 [tilearn-llm](https://pypi.org/project/tilearn-llm/), [T平台训练加速功能介绍](https://cloud.tencent.com/document/product/851/76701)
 
-#### 可选：自定义镜像使用tilearn-llm、tilearn.op
+#### 可选：自定义镜像使用tilearn-llm、tilearn.ops
 
 镜像中的 torch.__version__=='2.1.2'，其他版本请联系加速团队
 ```bash
 # tilearn-llm>=0.9.3
-# tilearn.op>=0.2.1.172
+# tilearn.ops>=0.2.1.172
 pip3 uninstall -y tilearn.llm tilearn.ops
 pip3 install tilearn-llm==0.9.3 -i https://pypi.tuna.tsinghua.edu.cn/simple 
 pip3 install tilearn.ops==0.2.1.172 -i https://g-bnvx3728-pypi.pkg.coding.net/tione/tilearn/simple
@@ -79,11 +79,11 @@ wget https://tione-public-cos-1308945662.cos.ap-shanghai.myqcloud.com/tilearn/hy
 pip3 install colossalai-0.3.4.1-cp310-cp310-linux_x86_64.whl
 ```
 
-#### 可选：平台镜像内更新tilearn-llm、tilearn.op版本
+#### 可选：平台镜像内更新tilearn-llm、tilearn.ops版本
 在镜像内更新最新的 tilearn.llm 和 tilearn.ops 包
 ```bash
 # tilearn-llm>=0.9.3 
-# tilearn.op>=0.2.1.172
+# tilearn.ops>=0.2.1.172
 pip3 uninstall -y tilearn.llm tilearn.ops
 pip3 install tilearn-llm==0.9.3 -i https://pypi.tuna.tsinghua.edu.cn/simple 
 pip3 install tilearn.ops==0.2.1.172 -i https://g-bnvx3728-pypi.pkg.coding.net/tione/tilearn/simple
