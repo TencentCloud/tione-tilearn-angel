@@ -2,7 +2,7 @@
 
 ### 1. 环境准备
 #### 1.1 运行镜像
-推荐使用平台内置镜像：tilearn-llm1.0-torch2.1-angel-vllm1.0-py3.10-cuda12.1-gpu, 在自定义镜像种使用该功能请参考附录
+推荐使用平台内置镜像：tilearn-llm1.0-torch2.1-angel-vllm1.0-py3.10-cuda12.1-gpu, 在自定义镜像中使用该功能请参考附录
 
 镜像中已经安装相关加速包tilearn-llm、tilearn.ops 版本如下
 ```bash
