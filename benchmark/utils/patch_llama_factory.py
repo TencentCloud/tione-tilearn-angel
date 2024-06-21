@@ -8,12 +8,12 @@ LOCAL_RANK = int(os.getenv('LOCAL_RANK', '0'))
 @classmethod
 def from_pretrained_for_throughput(self, *args, **kwargs):
     ### set pretrained_model_name_or_path = None
-    if len(args) > 0:
-        args_new = list(args)
-        args_new[0] = None
-        args = tuple(args_new)
-    if kwargs.get('pretrained_model_name_or_path', None) is not None: 
-        kwargs['pretrained_model_name_or_path'] = None
+    #if len(args) > 0:
+    #    args_new = list(args)
+    #    args_new[0] = None
+    #    args = tuple(args_new)
+    #if kwargs.get('pretrained_model_name_or_path', None) is not None: 
+    #    kwargs['pretrained_model_name_or_path'] = None
 
     kwargs['state_dict'] = {}
     model = self.from_pretrained_for_throughput_origin(*args, **kwargs)
