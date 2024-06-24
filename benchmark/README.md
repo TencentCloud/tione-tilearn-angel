@@ -4,18 +4,12 @@
 #### 1.1 运行镜像
 推荐使用平台内置镜像：tilearn-llm1.0-torch2.1-angel-vllm1.0-py3.10-cuda12.1-gpu, 在自定义镜像种使用该功能请参考附录
 
-镜像中已经安装相关加速包tilearn-llm、tilearn.ops 版本如下
+在平台镜像中执行以下命令进行更新
 ```bash
-tilearn-llm>=0.9.3
-tilearn.ops>=0.2.1.172
-```
-
-执行以下命令就行更新
-
-```bash
-pip3 uninstall -y tilearn.llm colossalai
 pip3 install tilearn-llm==0.9.7 -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip3 install tilearn.ops==0.2.1.172 -i https://g-bnvx3728-pypi.pkg.coding.net/tione/tilearn/simple
 pip3 install colossalai==0.3.6
+pip3 install llmtuner==0.6.3
 ```
 
 #### 1.2 下载代码
@@ -81,23 +75,11 @@ tilearn.llm tp=2 pp=2 | 1 | 64 | 128   | 4096      | 36343MiB | 19.65 | 3335.2
 
 镜像中的 torch.__version__=='2.1.2'，其他版本请联系加速团队
 ```bash
-# tilearn-llm>=0.9.3
-# tilearn.ops>=0.2.1.172
-pip3 uninstall -y tilearn.llm tilearn.ops
-pip3 install tilearn-llm==0.9.3 -i https://pypi.tuna.tsinghua.edu.cn/simple 
+pip3 uninstall -y tilearn.llm tilearn.ops colossalai 
+pip3 install tilearn-llm==0.9.7 -i https://pypi.tuna.tsinghua.edu.cn/simple 
 pip3 install tilearn.ops==0.2.1.172 -i https://g-bnvx3728-pypi.pkg.coding.net/tione/tilearn/simple
-wget https://tione-public-cos-1308945662.cos.ap-shanghai.myqcloud.com/tilearn/hybrid_parallel/colossalai-0.3.4.1-cp310-cp310-linux_x86_64.whl
-pip3 install colossalai-0.3.4.1-cp310-cp310-linux_x86_64.whl
-```
-
-#### 可选：平台镜像内更新tilearn-llm、tilearn.ops版本
-在镜像内更新最新的 tilearn.llm 和 tilearn.ops 包
-```bash
-# tilearn-llm>=0.9.3 
-# tilearn.ops>=0.2.1.172
-pip3 uninstall -y tilearn.llm tilearn.ops
-pip3 install tilearn-llm==0.9.3 -i https://pypi.tuna.tsinghua.edu.cn/simple 
-pip3 install tilearn.ops==0.2.1.172 -i https://g-bnvx3728-pypi.pkg.coding.net/tione/tilearn/simple
+pip3 install colossalai==0.3.6
+pip3 install llmtuner==0.6.3
 ```
 
 #### 可选：关闭模式参数随机初始化
@@ -115,6 +97,8 @@ MODEL_PATH=$BASE_PATH/models/$MODEL_NAME
 ```bash
 export TILEARN_HYBRID_TP_SIZE=1
 export TILEARN_HYBRID_PP_SIZE=2
+### for llama
+export TIACC_FASTER_ROPE=1
 ```
 训练代码
 ```python
