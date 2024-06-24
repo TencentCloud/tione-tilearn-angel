@@ -11,6 +11,7 @@ DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE --nnodes $NNODES --node_rank $
 ### Demo Args
 # llama factory model random initialization
 export LF_MODEL_RANDOM_INIT=1
+export TIACC_FASTER_ROPE=1
 
 MODEL_NAME=Llama-2-7b-hf
 TEMPLATE=llama2

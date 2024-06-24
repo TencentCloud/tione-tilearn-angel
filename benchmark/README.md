@@ -10,6 +10,14 @@ tilearn-llm>=0.9.3
 tilearn.ops>=0.2.1.172
 ```
 
+执行以下命令就行更新
+
+```bash
+pip3 uninstall -y tilearn.llm colossalai
+pip3 install tilearn-llm==0.9.7 -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip3 install colossalai==0.3.6
+```
+
 #### 1.2 下载代码
 ```bash
 apt install git
@@ -28,6 +36,9 @@ cd tione-tilearn-angel/benchmark && bash prepare.sh
 当前demo采用真实数据+模型参数随机初始化进行测试，仅提供模型config。若要读取huggingface模型参数，请参考附录进行修改
 
 ### 2. 开始性能测试
+
+目前已支持llama3、llama2、baichuan2、qwen2，以下demo以llama3为例进行性能测试，其他模型执行对应脚本即可
+
 测试demo基于llamafactory构建，测试baseline性能数据
 ```bash
 # tione-tilearn-angel/benchmark/llama3/8B
