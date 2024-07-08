@@ -7,3 +7,6 @@ benchmark/ckpt
 benchmark/result
 benchmark/data
 benchmark/models
+UT/test_model/models/
+UT/test_model/log/
+UT/test_model/ckpt-llm/
