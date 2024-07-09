@@ -1,6 +1,7 @@
 *pyc
 *.log
 *.zip
+*.tar.gz
 *.whl
 log
 benchmark/ckpt
