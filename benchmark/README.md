@@ -4,14 +4,6 @@
 #### 1.1 运行镜像
 推荐使用平台内置镜像：tilearn-llm1.0-torch2.1-angel-vllm1.0-py3.10-cuda12.1-gpu, 在自定义镜像种使用该功能请参考附录
 
-在平台镜像中执行以下命令进行更新
-```bash
-pip3 install tilearn-llm==0.9.7 -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip3 install tilearn.ops==0.2.1.172 -i https://g-bnvx3728-pypi.pkg.coding.net/tione/tilearn/simple
-pip3 install colossalai==0.3.6
-pip3 install llmtuner==0.6.3 jieba nltk rouge-chinese
-```
-
 #### 1.2 下载代码
 ```bash
 apt install git
