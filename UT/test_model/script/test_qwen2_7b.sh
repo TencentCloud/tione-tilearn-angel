@@ -11,7 +11,7 @@ if [ "$REAL_TEST" = "80G" ]; then
     export CONFIG_NAME="config.json" #default "config_tiny.json"
     export GRADIENT_ACCUMULATION_STEPS=32 #default 1
     export GRADIENT_CHECKPOINTING="" #default "--gradient_checkpointing"
-    export TRUST_REMOTE_CODE= "" ##default "" can set "trust_remote_code"
+    export TRUST_REMOTE_CODE="" ##default "" can set "trust_remote_code"
 fi
 
 bash run_clm_base.sh
