@@ -10,7 +10,8 @@ def from_pretrained_for_throughput(self, *args, **kwargs):
 
     config = kwargs.pop("config", None)
     if config is not None:
-        model = AutoModelForCausalLM.from_config(config, trust_remote_code=True)
+        attn_implementation = getattr(config, "_attn_implementation", None)
+        model = AutoModelForCausalLM.from_config(config, attn_implementation=attn_implementation, trust_remote_code=True)
     else:
         kwargs['state_dict'] = {}
         kwargs['low_cpu_mem_usage'] = False
