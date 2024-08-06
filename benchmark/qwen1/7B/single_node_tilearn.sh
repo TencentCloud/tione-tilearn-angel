@@ -10,7 +10,7 @@ DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE --nnodes $NNODES --node_rank $
 
 ### Demo Args
 # llama factory model random initialization
-export LF_MODEL_RANDOM_INIT=0
+export LF_MODEL_RANDOM_INIT=1
 
 MODEL_NAME=Qwen-7B
 TEMPLATE=qwen
@@ -18,8 +18,8 @@ SEQ_LENGTH=1024
 BATCH_SIZE_PER_GPU=1
 GRADIENT_ACCUMULATION_STEPS=32
 BASE_PATH=../../
-# MODEL_PATH=$BASE_PATH/models/$MODEL_NAME
-MODEL_PATH=/mnt/cfs/tilearn/pretrain_models/$MODEL_NAME
+ MODEL_PATH=$BASE_PATH/models/$MODEL_NAME
+#MODEL_PATH=/mnt/cfs/tilearn/pretrain_models/$MODEL_NAME
 DATA_PATH=$BASE_PATH/data
 RESULT_PATH=$BASE_PATH/ckpt/$MODEL_NAME/sft-tilearn
 
