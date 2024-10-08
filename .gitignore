@@ -4,10 +4,17 @@
 *.tar.gz
 *.whl
 log
+cos_upload.sh
+cos.conf
 benchmark/ckpt
 benchmark/result
 benchmark/data
 benchmark/models
+benchmark_LF_0.6.3/ckpt
+benchmark_LF_0.6.3/result
+benchmark_LF_0.6.3/data
+benchmark_LF_0.6.3/models
 UT/test_model/models/
 UT/test_model/log/
 UT/test_model/ckpt-llm/
+benchmark/llama2/7B/data

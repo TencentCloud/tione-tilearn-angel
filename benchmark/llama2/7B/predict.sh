@@ -1,30 +1,42 @@
 #!/bin/bash
 
-MODEL_NAME=Llama-2-7b-hf
-TEMPLATE=llama2
-SEQ_LENGTH=1024
-BASE_PATH=../../
-MODEL_PATH=$BASE_PATH/ckpt/$MODEL_NAME/sft/
-#MODEL_PATH=/mnt/cfs/tilearn/pretrain_models/$MODEL_NAME
-DATA_PATH=$BASE_PATH/data
-RESULT_PATH=$BASE_PATH/result/$MODEL_NAME/predict
+# tione.tencentcloudcr.com/qcloud-ti-platform/llm-train:24.03-gpu-py310-cu124-tilearn-llm-v1.8.0
+# cd LLaMA-Factory
+# pip3 install -e ".[torch,metrics]"
+# transformers 4.39.3
 
-#CUDA_VISIBLE_DEVICES=0 python3 $BASE_PATH/utils/train_bash.py \
-python3 $BASE_PATH/utils/train_bash.py \
-    --stage sft \
-    --do_predict \
-    --model_name_or_path $MODEL_PATH \
-    --dataset alpaca_en \
-    --dataset_dir $DATA_PATH \
-    --template $TEMPLATE \
-    --finetuning_type full \
-    --output_dir $RESULT_PATH \
-    --overwrite_cache \
-    --overwrite_output_dir \
-    --cutoff_len $SEQ_LENGTH \
-    --preprocessing_num_workers 16 \
-    --max_samples 20 \
-    --per_device_eval_batch_size 1 \
-    --predict_with_generate
+### Torch DPP ARGS
+MASTER_ADDR=${MASTER_ADDR:-localhost}
+MASTER_PORT=${MASTER_PORT:-23456}
+NNODES=${NODE_NUM:-1}
+NODE_RANK=${RANK:-0}
+GPUS_PER_NODE=${GPUS_NUM_PER_NODE:-$(nvidia-smi -L | wc -l)}
+DISTRIBUTED_ARGS="--nproc_per_node $GPUS_PER_NODE --nnodes $NNODES --node_rank $NODE_RANK --master_addr $MASTER_ADDR --master_port $MASTER_PORT"
 
-#    --max_samples 20 \
+### Demo Args
+# llama factory model random initialization
+#export LF_MODEL_RANDOM_INIT=1
+
+#CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun \
+CMD="torchrun \
+    $DISTRIBUTED_ARGS \
+    ../../utils/train_baseline.py \
+    full_predict.yaml 
+    "    
+
+### RUN Task CMD
+if [ ! -d "./log/" ];then
+  mkdir log
+fi
+echo ${CMD}
+eval ${CMD} 2>&1 | tee ./log/predict.log
+
+errorCode=${PIPESTATUS[0]}
+#errorCode=$?
+if [ $errorCode -ne 0 ]; then
+  echo "Training process has an error! Stopping evaluation process. errorCode: ${errorCode}"
+  # We exit the all script with the same error, if you don't want to
+  # exit it and continue, just delete this line.
+  exit $errorCode
+fi
+

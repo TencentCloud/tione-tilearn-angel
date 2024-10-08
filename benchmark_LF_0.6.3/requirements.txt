@@ -1,7 +1,7 @@
 tilearn-llm>=0.9.8 -i https://pypi.tuna.tsinghua.edu.cn/simple
 tilearn.ops>=0.2.1.172 -i https://g-bnvx3728-pypi.pkg.coding.net/tione/tilearn/simple
-colossalai==0.4.2
-llama_factory>=0.8.3
+colossalai==0.3.6
+llmtuner==0.6.3
 jieba
 nltk
 rouge-chinese

@@ -11,11 +11,6 @@ def from_pretrained_for_throughput(self, *args, **kwargs):
     config = kwargs.pop("config", None)
     if config is not None:
         attn_implementation = getattr(config, "_attn_implementation", None)
-      
-        #from colossalai.lazy import LazyInitContext
-        #from colossalai.utils import get_current_device
-        #init_context = LazyInitContext(default_device=get_current_device())
-        #with init_context:
         model = AutoModelForCausalLM.from_config(config, attn_implementation=attn_implementation, trust_remote_code=True)
     else:
         kwargs['state_dict'] = {}
