@@ -3,6 +3,7 @@
 *.zip
 *.tar.gz
 *.whl
+*.npy
 log
 cos_upload.sh
 cos.conf
