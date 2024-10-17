@@ -1,5 +1,6 @@
 # model
 model_name_or_path: ../../models/Qwen1.5-7B-Chat
+#model_name_or_path: /mnt/cfs/tilearn/pretrain_models/Qwen1.5-7B-Chat
 
 # method
 stage: sft
