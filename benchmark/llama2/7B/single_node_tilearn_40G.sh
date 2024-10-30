@@ -12,7 +12,7 @@ export LF_MODEL_RANDOM_INIT=1
 #export LF_UT_MODEL_PATH_PREFIX="../../models ||| /mnt/cfs/tilearn/pretrain_models"
 
 export TILEARN_DEBUG=1
-export TILEARN_HYBRID_TP_SIZE=1
+export TILEARN_HYBRID_TP_SIZE=2
 export TILEARN_HYBRID_PP_SIZE=2
 export TILEARN_HYBRID_OFFLOAD=0
 export TILEARN_HYBRID_ZERO_STAGE=1
@@ -25,8 +25,8 @@ export TILEARN_HYBRID_ZERO_STAGE=1
 
 
 CODE_PATH=../../utils/train_tilearn.py
-YAML_PATH=full_sft_tilearn.yaml
-LOG_PATH=./log/tilearn.log
+YAML_PATH=full_sft_tilearn_40G.yaml
+LOG_PATH=./log/tilearn_40G.log
 
 bash ../../utils/run_single_node.sh $CODE_PATH $YAML_PATH $LOG_PATH
 exit $?

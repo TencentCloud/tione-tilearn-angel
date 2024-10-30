@@ -1,5 +1,5 @@
 # model
-#model_name_or_path: ../../models/Llama-2-7b-hf
+#model_name_or_path: ../../models/Meta-Llama-3-8B
 model_name_or_path: /mnt/cfs/tilearn/pretrain_models/Llama-2-7b-hf/
 
 # method
@@ -10,7 +10,7 @@ finetuning_type: full
 # dataset
 eval_dataset: alpaca_en
 dataset_dir: ../../data
-template: llama2
+template: llama3
 cutoff_len: 1024
 max_samples: 50
 overwrite_cache: true
