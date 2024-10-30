@@ -56,7 +56,7 @@ function run_model() {
 }
 
 #run_model "test_llama2_7b.sh"
-#run_model "test_llama3_8b.sh"
+run_model "test_llama3_8b.sh"
 run_model "test_llama31_8b.sh"
 #run_model "test_qwen2_7b.sh"
 #run_model "test_baichuan2_13b.sh"
