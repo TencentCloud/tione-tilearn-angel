@@ -4,7 +4,7 @@ except:
     from llamafactory.train.tuner import run_exp
 
 import tilearn.llm.hybrid_parallel
-#from tilearn.llm.transformers.models import patch_models
+from tilearn.llm.transformers.models import patch_models
 #from tilearn.llm.memory.cpu.memory_optimize import memory_optimize
 from patch_llama_factory import patchAutoModelForCausalLM
 
@@ -12,7 +12,7 @@ from patch_llama_factory import patchAutoModelForCausalLM
 def main():
 
     patchAutoModelForCausalLM()
-    #patch_models()
+    patch_models()
     #memory_optimize()
 
     run_exp()

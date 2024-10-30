@@ -8,7 +8,6 @@ from patch_llama_factory import patchAutoModelForCausalLM
 def main():
 
     patchAutoModelForCausalLM()
-
     run_exp()
 
 

@@ -1,8 +1,9 @@
 import os
 import transformers
-from transformers import AutoModelForCausalLM
+from transformers import AutoModelForCausalLM, TrainingArguments
 
 LF_MODEL_RANDOM_INIT = int(os.getenv('LF_MODEL_RANDOM_INIT', '0'))
+LF_UT_TEST = int(os.getenv('LF_UT_TEST', '0'))
 LOCAL_RANK = int(os.getenv('LOCAL_RANK', '0'))
 
 @classmethod
@@ -25,12 +26,35 @@ def from_pretrained_for_throughput(self, *args, **kwargs):
 
     return model
 
+def save_model_for_throughput(self, *args, **kwargs):
+    print(f"TILEARN - LLAMA FACTORY - LF_UT_TEST:{LF_UT_TEST}, Skip save_model for UT!!!")
+    return 
+
+def _save_checkpoint_for_throughput(self, *args, **kwargs):
+    print(f"TILEARN - LLAMA FACTORY - LF_UT_TEST:{LF_UT_TEST}, Skip _save_checkpoint for UT!!!")
+    return
+
 def patchAutoModelForCausalLM():
 
     if LF_MODEL_RANDOM_INIT == 1:
         transformers.AutoModelForCausalLM.from_pretrained_for_throughput_origin = transformers.AutoModelForCausalLM.from_pretrained
         transformers.AutoModelForCausalLM.from_pretrained = from_pretrained_for_throughput
-
         if LOCAL_RANK == 0:
             print(f"TILEARN - LLAMA FACTORY - LF_MODEL_RANDOM_INIT:{LF_MODEL_RANDOM_INIT}, patchAutoModelForCausalLM done!!!")
+
+    if LF_UT_TEST == 1:
+        from tilearn.llm.llamafactory.patch_parse_train_args import patchParseTrainArgs 
+        from tilearn.llm.llamafactory.patch_workflow import patchWorkflow
+        patchParseTrainArgs()
+        patchWorkflow()
+
+        transformers.trainer.Trainer.save_model_ut_origin = transformers.trainer.Trainer.save_model
+        transformers.trainer.Trainer.save_model = save_model_for_throughput
+        transformers.trainer.Trainer._save_checkpoint_ut_origin = transformers.trainer.Trainer._save_checkpoint
+        transformers.trainer.Trainer._save_checkpoint = _save_checkpoint_for_throughput
+
+        if LOCAL_RANK == 0:
+            print(f"TILEARN - LLAMA FACTORY - patchParseTrainArgs && patchWorkflow && save_model done!!!")
+
+
 

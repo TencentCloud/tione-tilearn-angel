@@ -1,0 +1,135 @@
+import os
+import transformers
+from transformers import AutoModelForCausalLM, TrainingArguments
+
+import llamafactory
+
+LF_MODEL_RANDOM_INIT = int(os.getenv('LF_MODEL_RANDOM_INIT', '0'))
+LF_UT_TEST = int(os.getenv('LF_UT_TEST', '0'))
+LOCAL_RANK = int(os.getenv('LOCAL_RANK', '0'))
+
+@classmethod
+def from_pretrained_for_throughput(self, *args, **kwargs):
+
+    config = kwargs.pop("config", None)
+    if config is not None:
+        attn_implementation = getattr(config, "_attn_implementation", None)
+      
+        #from colossalai.lazy import LazyInitContext
+        #from colossalai.utils import get_current_device
+        #init_context = LazyInitContext(default_device=get_current_device())
+        #with init_context:
+        model = AutoModelForCausalLM.from_config(config, attn_implementation=attn_implementation, trust_remote_code=True)
+    else:
+        kwargs['state_dict'] = {}
+        kwargs['low_cpu_mem_usage'] = False
+        kwargs['device_map'] = None
+        model = self.from_pretrained_for_throughput_origin(*args, **kwargs)
+
+    return model
+
+def _parse_train_args_for_throughput(self, *args, **kwargs):
+
+    print(f"11111 args:{args}, kwargs:{kwargs}")
+
+    args = llamafactory.hparams.parser._parse_train_args_origin(*args, **kwargs)
+
+    def set_args(arg, key, replace_value):
+         value = getattr(arg, key, None)
+         if value is not None and replace_value is not None:
+             value_new = replace_value
+             if LOCAL_RANK == 0:
+                 print(f"TILEARN - LLAMA FACTORY - Replace {key}: " + \
+                       f"{value}  >>>  {value_new}")
+                 print(f"TILEARN - LLAMA FACTORY - Replace {key}: " + \
+                       f"{value}  >>>  {value_new}")
+                 print(f"TILEARN - LLAMA FACTORY - Replace {key}: " + \
+                       f"{value}  >>>  {value_new}")
+             #arg[key] = value_new
+             setattr(arg, key, value_new)
+
+    def path_replace(arg, key, replace_pattern):
+         value = getattr(arg, key, None)
+         if value is not None and replace_pattern is not None:
+
+             src, target = replace_pattern.split(' ||| ')
+
+             value_origin = value
+             value_new = value.replace(src, target)
+             if LOCAL_RANK == 0:
+                 print(f"TILEARN - LLAMA FACTORY - Replace {key}: " + \
+                       f"{value_origin}  >>>  {value_new}")
+                 print(f"TILEARN - LLAMA FACTORY - Replace {key}: " + \
+                       f"{value_origin}  >>>  {value_new}")
+                 print(f"TILEARN - LLAMA FACTORY - Replace {key}: " + \
+                       f"{value_origin}  >>>  {value_new}")
+             #arg[key] = value_new
+             setattr(arg, key, value_new)
+
+             if key is "deepspeed": 
+                 from accelerate.utils import DeepSpeedPlugin
+                 from transformers.integrations.deepspeed import HfTrainerDeepSpeedConfig
+
+                 arg.hf_deepspeed_config = HfTrainerDeepSpeedConfig(arg.deepspeed)
+                 arg.hf_deepspeed_config.trainer_config_process(arg)
+                 arg.deepspeed_plugin = DeepSpeedPlugin(hf_ds_config=arg.hf_deepspeed_config)
+
+
+    for arg in args:
+         LF_UT_MODEL_PATH_PREFIX = os.getenv('LF_UT_MODEL_PATH_PREFIX', None)
+         path_replace(arg, "model_name_or_path", LF_UT_MODEL_PATH_PREFIX)
+
+         LF_UT_DSYAML_PATH_PREFIX = os.getenv('LF_UT_DSYAML_PATH_PREFIX', None)
+         path_replace(arg, "deepspeed", LF_UT_DSYAML_PATH_PREFIX)
+
+         LF_UT_DIS_GRAD_CKPT = os.getenv('LF_UT_DIS_GRAD_CKPT', None)
+         LF_UT_DIS_GRAD_CKPT = True if LF_UT_DIS_GRAD_CKPT == '1' else LF_UT_DIS_GRAD_CKPT
+         LF_UT_DIS_GRAD_CKPT = False if LF_UT_DIS_GRAD_CKPT == '0' else LF_UT_DIS_GRAD_CKPT
+         set_args(arg, "disable_gradient_checkpointing", LF_UT_DIS_GRAD_CKPT)
+
+         LF_UT_MAX_LENGTH = int(os.getenv('LF_UT_MAX_LENGTH', '-1'))
+         LF_UT_MAX_LENGTH = None if LF_UT_MAX_LENGTH <= 0 else LF_UT_MAX_LENGTH
+         set_args(arg, "cutoff_len", LF_UT_MAX_LENGTH)
+         set_args(arg, "max_length", LF_UT_MAX_LENGTH)
+
+         LF_UT_BS = int(os.getenv('LF_UT_BS', '-1'))
+         LF_UT_BS = None if LF_UT_BS <= 0 else LF_UT_BS
+         set_args(arg, "per_device_train_batch_size", LF_UT_BS)
+
+         LF_UT_GRAD_ACC = int(os.getenv('LF_UT_GRAD_ACC', '-1'))
+         LF_UT_GRAD_ACC = None if LF_UT_GRAD_ACC <= 0 else LF_UT_GRAD_ACC
+         set_args(arg, "gradient_accumulation_steps", LF_UT_GRAD_ACC)
+
+         LF_UT_MAX_STEPS = int(os.getenv('LF_UT_MAX_STEPS', '-1'))
+         LF_UT_MAX_STEPS = None if LF_UT_MAX_STEPS <= 0 else LF_UT_MAX_STEPS
+         set_args(arg, "max_steps", LF_UT_MAX_STEPS)
+
+    ### update Tilearn TrainingArguments update_config
+    for arg in args:
+         if hasattr(arg,'reset_hybrid_config'):
+             arg.reset_hybrid_config()
+             #arg.recover_config()
+             #arg.update_config()
+             if LOCAL_RANK == 0: print(f"ILEARN - LLAMA FACTORY - {type(arg)} update_config!!!")
+
+    return args
+
+def patchAutoModelForCausalLM():
+
+    if LF_MODEL_RANDOM_INIT == 1:
+        transformers.AutoModelForCausalLM.from_pretrained_for_throughput_origin = transformers.AutoModelForCausalLM.from_pretrained
+        transformers.AutoModelForCausalLM.from_pretrained = from_pretrained_for_throughput
+        if LOCAL_RANK == 0:
+            print(f"TILEARN - LLAMA FACTORY - LF_MODEL_RANDOM_INIT:{LF_MODEL_RANDOM_INIT}, patchAutoModelForCausalLM done!!!")
+
+    if LF_UT_TEST == 1:
+        llamafactory.hparams.parser._parse_train_args_origin = llamafactory.hparams.parser._parse_train_args
+        llamafactory.hparams.parser._parse_train_args = _parse_train_args_for_throughput          
+        if LOCAL_RANK == 0:
+            print(f"TILEARN - LLAMA FACTORY - LF_MODEL_RANDOM_INIT:{LF_MODEL_RANDOM_INIT}, patchParseTrainArgs done!!!")
+
+
+
+
+
+
