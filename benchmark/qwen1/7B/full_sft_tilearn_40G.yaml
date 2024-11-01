@@ -18,13 +18,13 @@ template: qwen
 cutoff_len: 4096
 packing: true 
 max_length: 4096
-max_samples: 30000
+max_samples: 50000
 overwrite_cache: true
 preprocessing_num_workers: 16
 disable_gradient_checkpointing: true
 
 # output
-output_dir: ../../ckpt/full/sft_baseline
+output_dir: ../../ckpt/full/sft_tilearn
 logging_steps: 10
 save_steps: 500
 plot_loss: true
@@ -32,7 +32,7 @@ overwrite_output_dir: true
 
 # train
 per_device_train_batch_size: 1
-gradient_accumulation_steps: 4
+gradient_accumulation_steps: 64
 learning_rate: 0.00001
 num_train_epochs: 3.0
 max_steps: 100

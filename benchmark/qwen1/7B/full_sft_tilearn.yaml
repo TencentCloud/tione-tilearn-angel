@@ -1,6 +1,5 @@
 # model
 model_name_or_path: ../../models/Qwen-7B
-#model_name_or_path: /mnt/cfs/tilearn/pretrain_models/Qwen-7B/
 
 # method
 stage: sft
@@ -10,36 +9,37 @@ finetuning_type: full
 # ddp
 ddp_timeout: 180000000
 #deepspeed: ds_z3_config.json
-deepspeed: ../../utils/ds_config/ds_z3_offload_config.json
+deepspeed: ../../utils/ds_config/ds_z3_config.json
 
 # dataset
 dataset: alpaca_en
 dataset_dir: ../../data
 template: qwen
-cutoff_len: 256
+cutoff_len: 4096
 packing: true 
-max_length: 256
+max_length: 4096
 max_samples: 30000
 overwrite_cache: true
 preprocessing_num_workers: 16
-disable_gradient_checkpointing: false
+disable_gradient_checkpointing: true
 
 # output
-output_dir: ../../ckpt/full/sft_baseline
-logging_steps: 1
+output_dir: ../../ckpt/full/sft_tilearn
+logging_steps: 10
 save_steps: 500
 plot_loss: true
 overwrite_output_dir: true
 
 # train
 per_device_train_batch_size: 1
-gradient_accumulation_steps: 4
-learning_rate: 0.0001
+gradient_accumulation_steps: 8
+learning_rate: 0.00001
 num_train_epochs: 3.0
+max_steps: 100
 lr_scheduler_type: cosine
-warmup_ratio: 0.1
+warmup_ratio: 0.0
 bf16: true
-flash_attn: auto
+flash_attn: fa2
 
 ## eval
 #val_size: 0.1
