@@ -7,9 +7,9 @@
 
 ### Demo Args
 # llama factory model random initialization
-export LF_MODEL_RANDOM_INIT=0
-export LF_UT_TEST=1
-export LF_UT_MODEL_PATH_PREFIX="../../models ||| /mnt/cfs/tilearn/pretrain_models"
+export LF_MODEL_RANDOM_INIT=1
+#export LF_UT_TEST=1
+#export LF_UT_MODEL_PATH_PREFIX="../../models ||| /mnt/cfs/tilearn/pretrain_models"
 
 CODE_PATH=../../utils/train_baseline.py
 YAML_PATH=full_sft_baseline_40G.yaml
