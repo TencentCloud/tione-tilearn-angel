@@ -6,7 +6,7 @@ GPU_MEM=${GPU_MEM:-"40G"}
 echo RUN_TILEARN:${RUN_TILEARN} GPU_MEM:${GPU_MEM}
 #echo LF_UT_DIS_GRAD_CKPT:${LF_UT_DIS_GRAD_CKPT}
 
-BASE_ROOT=../../benchmark/llama2/7B/
+BASE_ROOT=../../benchmark/qwen1/7B/
 cd $BASE_ROOT
 
 if [ $RUN_TILEARN -eq 1 ]; then
