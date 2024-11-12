@@ -21,7 +21,7 @@ if [ $RUN_TILEARN -eq 1 ]; then
         export LF_UT_DIS_GRAD_CKPT=${LF_UT_DIS_GRAD_CKPT:-1}
         export LF_UT_MAX_LENGTH=${LF_UT_MAX_LENGTH:-4096}
         export LF_UT_BS=${LF_UT_BS:-1}
-        export LF_UT_GRAD_ACC=${LF_UT_GRAD_ACC:-64}
+        export LF_UT_GRAD_ACC=${LF_UT_GRAD_ACC:-16}
         export LF_UT_MAX_STEPS=${LF_UT_MAX_STEPS:-50}
         export LF_UT_LOG_STEPS=${LF_UT_LOG_STEPS:-10}
 
@@ -30,6 +30,7 @@ if [ $RUN_TILEARN -eq 1 ]; then
         export TILEARN_HYBRID_PP_SIZE=${TILEARN_HYBRID_PP_SIZE:-2}
         export TILEARN_HYBRID_OFFLOAD=${TILEARN_HYBRID_OFFLOAD:-0}
         export TILEARN_HYBRID_ZERO_STAGE=${TILEARN_HYBRID_ZERO_STAGE:-1}
+	export TILEARN_HYBRID_FUSE_NORMALIZATION=1
 
     elif [ $GPU_MEM = "80G" ]; then
 
@@ -95,11 +96,11 @@ elif [ $RUN_TILEARN -eq 0 ]; then
         export LF_MODEL_RANDOM_INIT=${LF_MODEL_RANDOM_INIT:-0}
         export LF_UT_TEST=${LF_UT_TEST:-1}
         export LF_UT_MODEL_PATH_PREFIX=${LF_UT_MODEL_PATH_PREFIX:-"../../models ||| /mnt/cfs/tilearn/pretrain_models"}
-        export LF_UT_DSYAML_PATH_PREFIX=${LF_UT_DSYAML_PATH_PREFIX:-"ds_z3_config.json ||| ds_z3_offload_config.json"}
+        export LF_UT_DSYAML_PATH_PREFIX=${LF_UT_DSYAML_PATH_PREFIX:-"ds_z3_config.json ||| ds_z3_config.json"}
         export LF_UT_DIS_GRAD_CKPT=${LF_UT_DIS_GRAD_CKPT:-0}
         export LF_UT_MAX_LENGTH=${LF_UT_MAX_LENGTH:-4096}
         export LF_UT_BS=${LF_UT_BS:-1}
-        export LF_UT_GRAD_ACC=${LF_UT_GRAD_ACC:-16}
+        export LF_UT_GRAD_ACC=${LF_UT_GRAD_ACC:-4}
         export LF_UT_MAX_STEPS=${LF_UT_MAX_STEPS:-50}
         export LF_UT_LOG_STEPS=${LF_UT_LOG_STEPS:-10}
 
