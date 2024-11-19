@@ -15,5 +15,8 @@ CODE_PATH=../../utils/train_baseline.py
 YAML_PATH=full_sft_baseline.yaml
 LOG_PATH=./log/baseline.log
 
+#export ENABLE_FP8=1
+#export LD_LIBRARY_PATH=//mnt/data/boyyang/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
+
 bash ../../utils/run_single_node.sh $CODE_PATH $YAML_PATH $LOG_PATH
 exit $?

@@ -12,8 +12,9 @@ export LF_MODEL_RANDOM_INIT=1
 #export LF_UT_MODEL_PATH_PREFIX="../../models ||| /mnt/cfs/tilearn/pretrain_models"
 
 export TILEARN_DEBUG=1
+export TILEARN_HYBRID_MODE='None'
 export TILEARN_HYBRID_TP_SIZE=1
-export TILEARN_HYBRID_PP_SIZE=2
+export TILEARN_HYBRID_PP_SIZE=1
 export TILEARN_HYBRID_OFFLOAD=0
 export TILEARN_HYBRID_ZERO_STAGE=1
 #export TIACC_FASTER_ROPE=1
@@ -23,6 +24,8 @@ export TILEARN_HYBRID_ZERO_STAGE=1
 #export TILEARN_HYBRID_AUTOZERO_OFFLOAD_OPTIM=0
 #export TILEARN_HYBRID_AUTOZERO_OFFLOAD_PARAM=0
 
+#export ENABLE_FP8=1
+#export LD_LIBRARY_PATH=//mnt/data/boyyang/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
 
 CODE_PATH=../../utils/train_tilearn.py
 YAML_PATH=full_sft_tilearn.yaml
