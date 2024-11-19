@@ -9,7 +9,7 @@ finetuning_type: full
 # ddp
 ddp_timeout: 180000000
 #deepspeed: ds_z3_config.json
-deepspeed: ../../utils/ds_config/ds_z3_config.json
+deepspeed: ../../utils/ds_config/ds_z1_config.json
 
 # dataset
 dataset: alpaca_en
@@ -32,7 +32,7 @@ overwrite_output_dir: true
 
 # train
 per_device_train_batch_size: 1
-gradient_accumulation_steps: 8
+gradient_accumulation_steps: 4
 learning_rate: 0.00001
 num_train_epochs: 3.0
 max_steps: 100
