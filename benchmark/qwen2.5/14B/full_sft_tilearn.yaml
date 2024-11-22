@@ -1,0 +1,48 @@
+# model
+model_name_or_path: ../../models/Qwen2.5-14B
+
+# method
+stage: sft
+do_train: true
+finetuning_type: full
+
+# ddp
+ddp_timeout: 180000000
+#deepspeed: ds_z3_config.json
+deepspeed: ../../utils/ds_config/ds_z2_config.json
+
+# dataset
+dataset: alpaca_en
+dataset_dir: ../../data
+template: qwen
+cutoff_len: 4096
+packing: true 
+max_length: 4096
+max_samples: 30000
+overwrite_cache: true
+preprocessing_num_workers: 16
+disable_gradient_checkpointing: true
+
+# output
+output_dir: ../../ckpt/full/sft_tilearn
+logging_steps: 10
+save_steps: 500
+plot_loss: true
+overwrite_output_dir: true
+
+# train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 16
+learning_rate: 0.00001
+num_train_epochs: 3.0
+max_steps: 100
+lr_scheduler_type: cosine
+warmup_ratio: 0.0
+bf16: true
+flash_attn: fa2
+
+## eval
+#val_size: 0.1
+#per_device_eval_batch_size: 1
+#evaluation_strategy: steps
+#eval_steps: 500
