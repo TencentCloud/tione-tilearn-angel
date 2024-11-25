@@ -13,7 +13,7 @@ export LF_MODEL_RANDOM_INIT=1
 
 export TILEARN_DEBUG=1
 #export TILEARN_HYBRID_MODE='None'
-export TILEARN_HYBRID_TP_SIZE=2
+export TILEARN_HYBRID_TP_SIZE=4
 export TILEARN_HYBRID_PP_SIZE=2
 export TILEARN_HYBRID_OFFLOAD=1
 export TILEARN_HYBRID_ZERO_STAGE=1
@@ -24,13 +24,21 @@ export TILEARN_HYBRID_ZERO_STAGE=1
 #export TILEARN_HYBRID_AUTOZERO_OFFLOAD_OPTIM=0
 #export TILEARN_HYBRID_AUTOZERO_OFFLOAD_PARAM=0
 
-#export ENABLE_FP8=1
-##export LD_LIBRARY_PATH=/mnt/cfs/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=//mnt/data/boyyang/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
+export ENABLE_FP8=1
+#export LD_LIBRARY_PATH=/mnt/cfs/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=//mnt/data/boyyang/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
 
 CODE_PATH=../../utils/train_tilearn.py
-YAML_PATH=full_sft_tilearn.yaml
-LOG_PATH=./log/tilearn.log
+YAML_PATH=full_sft_tilearn_multinode.yaml
+LOG_PATH=./log/tilearn_multinode.log
+
+export NODE_NUM=${1:-1}   #NNODES
+export RANK=${2:-0}       #NODE_RANK
+export MASTER_ADDR=${3:-localhost}
+export MASTER_PORT=${4:-23456}
+
+export NCCL_IB_QPS_PER_CONNECTION=4
+export NCCL_IB_GID_INDEX=3
 
 bash ../../utils/run_single_node.sh $CODE_PATH $YAML_PATH $LOG_PATH
 exit $?

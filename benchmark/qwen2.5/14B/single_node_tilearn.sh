@@ -24,9 +24,9 @@ export TILEARN_HYBRID_ZERO_STAGE=1
 #export TILEARN_HYBRID_AUTOZERO_OFFLOAD_OPTIM=0
 #export TILEARN_HYBRID_AUTOZERO_OFFLOAD_PARAM=0
 
-#export ENABLE_FP8=1
-##export LD_LIBRARY_PATH=/mnt/cfs/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=//mnt/data/boyyang/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
+export ENABLE_FP8=1
+#export LD_LIBRARY_PATH=/mnt/cfs/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=//mnt/data/boyyang/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
 
 CODE_PATH=../../utils/train_tilearn.py
 YAML_PATH=full_sft_tilearn.yaml

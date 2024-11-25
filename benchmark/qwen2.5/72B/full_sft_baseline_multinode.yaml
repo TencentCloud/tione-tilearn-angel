@@ -1,5 +1,5 @@
 # model
-model_name_or_path: ../../models/Qwen2.5-32B
+model_name_or_path: ../../models/Qwen2.5-72B
 
 # method
 stage: sft
@@ -9,7 +9,7 @@ finetuning_type: full
 # ddp
 ddp_timeout: 180000000
 #deepspeed: ds_z3_config.json
-deepspeed: ../../utils/ds_config/ds_z2_config.json
+deepspeed: ../../utils/ds_config/ds_z3_offload_config.json
 
 # dataset
 dataset: alpaca_en
@@ -21,10 +21,10 @@ max_length: 4096
 max_samples: 30000
 overwrite_cache: true
 preprocessing_num_workers: 16
-disable_gradient_checkpointing: true
+disable_gradient_checkpointing: false
 
 # output
-output_dir: ../../ckpt/full/sft_tilearn
+output_dir: ../../ckpt/full/sft_baseline
 logging_steps: 10
 save_steps: 500
 plot_loss: true
@@ -32,7 +32,7 @@ overwrite_output_dir: true
 
 # train
 per_device_train_batch_size: 1
-gradient_accumulation_steps: 16
+gradient_accumulation_steps: 8
 learning_rate: 0.00001
 num_train_epochs: 3.0
 max_steps: 100

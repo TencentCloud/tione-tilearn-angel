@@ -21,7 +21,7 @@ max_length: 4096
 max_samples: 30000
 overwrite_cache: true
 preprocessing_num_workers: 16
-disable_gradient_checkpointing: true
+disable_gradient_checkpointing: false
 
 # output
 output_dir: ../../ckpt/full/sft_tilearn
