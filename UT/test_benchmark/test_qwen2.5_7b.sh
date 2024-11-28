@@ -49,7 +49,7 @@ if [ $RUN_TILEARN -eq 1 ]; then
         export LF_UT_LOG_STEPS=${LF_UT_LOG_STEPS:-10}
 
         export TILEARN_DEBUG=1
-        export TILEARN_HYBRID_MODE='None'
+        export TILEARN_HYBRID_MODE=${TILEARN_HYBRID_MODE:-'default'}
         export TILEARN_HYBRID_TP_SIZE=${TILEARN_HYBRID_TP_SIZE:-1}
         export TILEARN_HYBRID_PP_SIZE=${TILEARN_HYBRID_PP_SIZE:-1}
         export TILEARN_HYBRID_OFFLOAD=${TILEARN_HYBRID_OFFLOAD:-0}

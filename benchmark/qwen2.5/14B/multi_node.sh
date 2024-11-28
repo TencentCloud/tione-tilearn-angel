@@ -21,7 +21,8 @@ export MASTER_ADDR=${3:-localhost}
 export MASTER_PORT=${4:-23456}
 
 export NCCL_IB_QPS_PER_CONNECTION=4
-export NCCL_IB_GID_INDEX=3
+export NCCL_IB_GID_INDEX=5
+export NCCL_DEBUG=INFO
 
 bash ../../utils/run_single_node.sh $CODE_PATH $YAML_PATH $LOG_PATH
 exit $?
