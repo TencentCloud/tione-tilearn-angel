@@ -16,5 +16,7 @@ CODE_PATH=../../utils/train_baseline.py
 YAML_PATH=full_sft_baseline_lora_65G.yaml
 LOG_PATH=./log/baseline_65G.log
 
+export GPUS_NUM_PER_NODE=8
+
 bash ../../utils/run_single_node.sh $CODE_PATH $YAML_PATH $LOG_PATH
 exit $?
