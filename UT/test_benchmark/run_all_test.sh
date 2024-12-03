@@ -1,4 +1,6 @@
-sleep 4h
+#sleep 4h
+datename=$(date +%Y%m%d-%H%M%S)
+echo $datename
 
 ### Tilearn UT 
 #export GPU_MEM='40G'
@@ -9,15 +11,18 @@ RUN_TILEARN=1
 
 export LF_UT_MODEL_PATH_PREFIX="../../models ||| ../../models"
 export LF_MODEL_RANDOM_INIT=1
+export BASE_LOG_PATH=${BASE_LOG_PATH:-"./log/${datename}-log_run_all_test/"}
 
 export ENABLE_FP8=1
 #export LD_LIBRARY_PATH=/mnt/cfs/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=//mnt/data/boyyang/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
 
-if [ -d log_run_all_test/ ]; then
-    rm log_run_all_test/*
+if [ -d $BASE_LOG_PATH ]; then
+    rm -r $BASE_LOG_PATH
+    mdkir -p $BASE_LOG_PATH
+    echo "rm -r $BASE_LOG_PATH"
 else
-    mkdir log_run_all_test/
+    mkdir -p $BASE_LOG_PATH
 fi
 
 function run_task() {
@@ -26,7 +31,7 @@ function run_task() {
     #cd ./script
 
     CMD="bash ./${SCRIPT}"
-    LOG_PATH="./log_run_all_test/${SCRIPT}.tilearn_${USE_TILEARN}.log"
+    LOG_PATH="${BASE_LOG_PATH}/${SCRIPT}.tilearn_${USE_TILEARN}.log"
     echo " "
     echo "USE_TILEARN:${USE_TILEARN} - ${CMD} ${USE_TILEARN} > ${LOG_PATH} 2>&1"
     eval ${CMD} ${USE_TILEARN} > ${LOG_PATH} 2>&1

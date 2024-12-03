@@ -1,4 +1,9 @@
+datename=$(date +%Y%m%d-%H%M%S)
+echo $datename
+
 export GPU_MEM=${GPU_MEM:-'96G'}
+export LF_UT_MAX_STEPS=${LF_UT_MAX_STEPS:-40}
+export BASE_LOG_PATH=${BASE_LOG_PATH:-"./log/${datename}-log_run_one_test/"}
 
 ############################## test 
 #export LF_UT_MODEL_PATH_PREFIX="../../models ||| ../../models"
@@ -12,7 +17,8 @@ export GPU_MEM=${GPU_MEM:-'96G'}
 CASE_INDEX=${1:-3}
 RUN_TILEARN=1
 
-SCRIPT=test_qwen2.5_7b.sh
+#SCRIPT=test_qwen2.5_7b.sh
+SCRIPT=${SCRIPT:-'test_qwen2.5_7b.sh'}
 
 if [ $CASE_INDEX -eq 0 ]; then
 
@@ -73,10 +79,12 @@ elif [ $CASE_INDEX -eq 3 ]; then
 fi
 
 
-if [ -d log_run_one_test/ ]; then
-    rm log_run_one_test/*
+if [ -d $BASE_LOG_PATH ]; then
+    rm -r $BASE_LOG_PATH
+    mkdir -p $BASE_LOG_PATH
+    echo "rm -r $BASE_LOG_PATH"
 else
-    mkdir log_run_one_test/
+    mkdir -p $BASE_LOG_PATH
 fi
 
 
@@ -107,7 +115,7 @@ do
     export LF_UT_GRAD_ACC=$grad_acc
 
     CMD="bash ./${SCRIPT}"
-    LOG_PATH="./log_run_one_test/${SCRIPT}.Case${CASE_INDEX}_Tilearn${USE_TILEARN}_TP${tp}_PP${pp}_BS${bs}_DisGradCkpt${dis_grad_ckpt}_GradACC${grad_acc}_Offload${offload}_ZeroStage${zero_stage}.log"
+    LOG_PATH="${BASE_LOG_PATH}/${SCRIPT}.Case${CASE_INDEX}_Tilearn${USE_TILEARN}_TP${tp}_PP${pp}_BS${bs}_DisGradCkpt${dis_grad_ckpt}_GradACC${grad_acc}_Offload${offload}_ZeroStage${zero_stage}.log"
     echo "USE_TILEARN:${USE_TILEARN} - ${CMD} ${USE_TILEARN} > ${LOG_PATH} 2>&1"
     eval ${CMD} ${USE_TILEARN} > ${LOG_PATH} 2>&1
 
@@ -116,7 +124,7 @@ do
         echo ${SCRIPT} error!!!
     else
         grep "train_samples_per_second" ${LOG_PATH}
-        grep "30/50" ${LOG_PATH} -A 8
+        grep "20/${LF_UT_MAX_STEPS}" ${LOG_PATH} -A 8
         echo ${SCRIPT} pass!!!
     fi
 

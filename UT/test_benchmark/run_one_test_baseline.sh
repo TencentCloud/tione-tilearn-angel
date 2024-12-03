@@ -1,3 +1,7 @@
+datename=$(date +%Y%m%d-%H%M%S)
+echo $datename
+
+export BASE_LOG_PATH=${BASE_LOG_PATH:-"./log/${datename}-log_run_one_test_benchmark/"}
 export GPU_MEM=${GPU_MEM:-'96G'}
 ############################## test 
 #export LF_UT_MODEL_PATH_PREFIX="../../models ||| ../../models"
@@ -6,23 +10,25 @@ export GPU_MEM=${GPU_MEM:-'96G'}
 
 
 RUN_TILEARN=${1:-0}
-SCRIPT=test_qwen2.5_7b.sh
+#SCRIPT=test_qwen2.5_7b.sh
+SCRIPT=${SCRIPT:-'test_qwen2.5_7b.sh'}
+ORIGIN_PATH_PREFIX=${ORIGIN_PATH_PREFIX:-'ds_z2_config.json'}
 
 #TP=("2" "1" "2")
 #PP=("2" "2" "1")
 BS=("1" "1" "1" "1" "1" "1" "1" "1" "1" "1")
 DIS_GRAD_CKPT=("1" "0" "1" "0" "1" "0" "1" "0" "1" "0")
 GRAD_ACC=("4" "4" "4" "4" "4" "4" "4" "4" "4" "4")
-DSYAML_PATH_PREFIX=("ds_z1_config.json ||| ds_z3_config.json" \
-	            "ds_z1_config.json ||| ds_z3_config.json" \
-                    "ds_z1_config.json ||| ds_z2_config.json" \
-                    "ds_z1_config.json ||| ds_z2_config.json" \
-		    "ds_z1_config.json ||| ds_z1_config.json" \
-		    "ds_z1_config.json ||| ds_z1_config.json" \
-		    "ds_z1_config.json ||| ds_z3_offload_config.json" \
-		    "ds_z1_config.json ||| ds_z3_offload_config.json" \
-		    "ds_z1_config.json ||| ds_z2_offload_config.json" \
-		    "ds_z1_config.json ||| ds_z2_offload_config.json" \
+DSYAML_PATH_PREFIX=("$ORIGIN_PATH_PREFIX ||| ds_z3_config.json" \
+	            "$ORIGIN_PATH_PREFIX ||| ds_z3_config.json" \
+                    "$ORIGIN_PATH_PREFIX ||| ds_z2_config.json" \
+                    "$ORIGIN_PATH_PREFIX ||| ds_z2_config.json" \
+		    "$ORIGIN_PATH_PREFIX ||| ds_z1_config.json" \
+		    "$ORIGIN_PATH_PREFIX ||| ds_z1_config.json" \
+		    "$ORIGIN_PATH_PREFIX ||| ds_z3_offload_config.json" \
+		    "$ORIGIN_PATH_PREFIX ||| ds_z3_offload_config.json" \
+		    "$ORIGIN_PATH_PREFIX ||| ds_z2_offload_config.json" \
+		    "$ORIGIN_PATH_PREFIX ||| ds_z2_offload_config.json" \
 	            )
 
 # llama factory model random initialization
@@ -33,11 +39,11 @@ export LF_UT_MAX_LENGTH=${LF_UT_MAX_LENGTH:-4096}
 export LF_UT_MAX_STEPS=${LF_UT_MAX_STEPS:-50}
 export LF_UT_LOG_STEPS=${LF_UT_LOG_STEPS:-10}
 
-if [ -d log_run_one_test/ ]; then
-    rm -r log_run_one_baseline_test/
-    mkdir log_run_one_baseline_test/
+if [ -d $BASE_LOG_PATH ]; then
+    rm -r $BASE_LOG_PATH
+    mkdir -p $BASE_LOG_PATH
 else
-    mkdir log_run_one_baseline_test/
+    mkdir -p $BASE_LOG_PATH
 fi
 
 
@@ -66,7 +72,7 @@ do
 
     CMD="bash ./${SCRIPT}"
     ds_yaml_sed=${ds_yaml// ||| /_to_}
-    LOG_PATH="./log_run_one_baseline_test/${SCRIPT}.Tilearn${USE_TILEARN}_DSYAM${ds_yaml_sed}_BS${bs}_DisGradCkpt${dis_grad_ckpt}_GradACC${grad_acc}.log"
+    LOG_PATH="${BASE_LOG_PATH}/${SCRIPT}.Tilearn${USE_TILEARN}_DSYAM${ds_yaml_sed}_BS${bs}_DisGradCkpt${dis_grad_ckpt}_GradACC${grad_acc}.log"
     echo "USE_TILEARN:${USE_TILEARN} - ${CMD} ${USE_TILEARN} > ${LOG_PATH} 2>&1"
 
     eval ${CMD} ${USE_TILEARN} > ${LOG_PATH} 2>&1
@@ -76,7 +82,7 @@ do
         echo ${SCRIPT} error!!!
     else
         grep "train_samples_per_second" ${LOG_PATH}
-        grep "30/50" ${LOG_PATH} -A 8
+        grep "20/50" ${LOG_PATH} -A 8
         echo ${SCRIPT} pass!!!
     fi
 

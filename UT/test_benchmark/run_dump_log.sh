@@ -1,5 +1,8 @@
+datename=$(date +%Y%m%d-%H%M%S) 
+echo $datename
+
 cmd=$1
-LOG_PATH=log_dump/$1.log
+LOG_PATH=log_dump/${datename}-$1.log
 
 if [ -d log_dump/ ]; then
     sleep 1s
