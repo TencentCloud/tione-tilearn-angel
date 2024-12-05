@@ -82,7 +82,7 @@ do
         echo ${SCRIPT} error!!!
     else
         grep "train_samples_per_second" ${LOG_PATH}
-        grep "20/50" ${LOG_PATH} -A 8
+        grep "20/50" ${LOG_PATH} -A 11
         echo ${SCRIPT} pass!!!
     fi
 
