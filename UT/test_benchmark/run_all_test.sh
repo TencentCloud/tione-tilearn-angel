@@ -3,19 +3,21 @@ datename=$(date +%Y%m%d-%H%M%S)
 echo $datename
 
 ### Tilearn UT 
-#export GPU_MEM='40G'
-export GPU_MEM='96G'
+export GPU_MEM=${GPU_MEM:-'96G'}
+#export GPU_MEM=${GPU_MEM:-'40G'}
 
-RUN_BASELINE=1
-RUN_TILEARN=1
+export RUN_BASELINE=${RUN_BASELINE:-1}
+export RUN_TILEARN=${RUN_TILEARN:-1}
 
-export LF_UT_MODEL_PATH_PREFIX="../../models ||| ../../models"
-export LF_MODEL_RANDOM_INIT=1
+export LF_UT_MODEL_PATH_PREFIX=${LF_UT_MODEL_PATH_PREFIX:-"../../models ||| ../../models"}
+export LF_MODEL_RANDOM_INIT=${LF_MODEL_RANDOM_INIT:-1}
 export BASE_LOG_PATH=${BASE_LOG_PATH:-"./log/${datename}-log_run_all_test/"}
 
-export ENABLE_FP8=1
+export ENABLE_FP8=${ENABLE_FP8:-0}
 #export LD_LIBRARY_PATH=/mnt/cfs/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=//mnt/data/boyyang/cublas-x86_64-centos7-cuda12.3_r545/lib64/:$LD_LIBRARY_PATH
+
+echo "run_all_test.sh GPU_MEM:${GPU_MEM} RUN_BASELINE:${RUN_BASELINE} RUN_TILEARN:${RUN_TILEARN} LF_UT_MODEL_PATH_PREFIX:${LF_UT_MODEL_PATH_PREFIX}, LF_MODEL_RANDOM_INIT:${LF_MODEL_RANDOM_INIT} BASE_LOG_PATH:${BASE_LOG_PATH} ENABLE_FP8:${ENABLE_FP8}"
 
 if [ -d $BASE_LOG_PATH ]; then
     rm -r $BASE_LOG_PATH
@@ -41,7 +43,7 @@ function run_task() {
         echo ${SCRIPT} error!!!
     else
 	grep "train_samples_per_second" ${LOG_PATH}
-        grep "30/50" ${LOG_PATH} -A 8
+        grep "30/50" ${LOG_PATH} -A 11
         echo ${SCRIPT} pass!!!
     fi
 

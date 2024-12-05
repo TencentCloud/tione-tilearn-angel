@@ -1,6 +1,5 @@
 export GPU_MEM='96G'
 export SCRIPT='test_qwen2.5_14b.sh'
-export ORIGIN_PATH_PREFIX='ds_z2_config.json'
 ############################# test 
 export LF_UT_MODEL_PATH_PREFIX="../../models ||| ../../models"
 export LF_MODEL_RANDOM_INIT=1
@@ -16,3 +15,4 @@ export LF_MODEL_RANDOM_INIT=1
 #bash run_one_test_tilearn.sh 3
 bash run_one_test_tilearn_autozero.sh 0
 bash run_one_test_tilearn_autozero.sh 1
+bash run_one_test_baseline.sh

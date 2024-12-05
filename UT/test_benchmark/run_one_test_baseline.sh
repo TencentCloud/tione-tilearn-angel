@@ -12,23 +12,22 @@ export GPU_MEM=${GPU_MEM:-'96G'}
 RUN_TILEARN=${1:-0}
 #SCRIPT=test_qwen2.5_7b.sh
 SCRIPT=${SCRIPT:-'test_qwen2.5_7b.sh'}
-ORIGIN_PATH_PREFIX=${ORIGIN_PATH_PREFIX:-'ds_z2_config.json'}
 
 #TP=("2" "1" "2")
 #PP=("2" "2" "1")
 BS=("1" "1" "1" "1" "1" "1" "1" "1" "1" "1")
 DIS_GRAD_CKPT=("1" "0" "1" "0" "1" "0" "1" "0" "1" "0")
 GRAD_ACC=("4" "4" "4" "4" "4" "4" "4" "4" "4" "4")
-DSYAML_PATH_PREFIX=("$ORIGIN_PATH_PREFIX ||| ds_z3_config.json" \
-	            "$ORIGIN_PATH_PREFIX ||| ds_z3_config.json" \
-                    "$ORIGIN_PATH_PREFIX ||| ds_z2_config.json" \
-                    "$ORIGIN_PATH_PREFIX ||| ds_z2_config.json" \
-		    "$ORIGIN_PATH_PREFIX ||| ds_z1_config.json" \
-		    "$ORIGIN_PATH_PREFIX ||| ds_z1_config.json" \
-		    "$ORIGIN_PATH_PREFIX ||| ds_z3_offload_config.json" \
-		    "$ORIGIN_PATH_PREFIX ||| ds_z3_offload_config.json" \
-		    "$ORIGIN_PATH_PREFIX ||| ds_z2_offload_config.json" \
-		    "$ORIGIN_PATH_PREFIX ||| ds_z2_offload_config.json" \
+DSYAML_PATH_PREFIX=("not_set ||| ../../utils/ds_config/ds_z3_config.json" \
+	            "not_set ||| ../../utils/ds_config/ds_z3_config.json" \
+                    "not_set ||| ../../utils/ds_config/ds_z2_config.json" \
+                    "not_set ||| ../../utils/ds_config/ds_z2_config.json" \
+		    "not_set ||| ../../utils/ds_config/ds_z1_config.json" \
+		    "not_set ||| ../../utils/ds_config/ds_z1_config.json" \
+		    "not_set ||| ../../utils/ds_config/ds_z3_offload_config.json" \
+		    "not_set ||| ../../utils/ds_config/ds_z3_offload_config.json" \
+		    "not_set ||| ../../utils/ds_config/ds_z2_offload_config.json" \
+		    "not_set ||| ../../utils/ds_config/ds_z2_offload_config.json" \
 	            )
 
 # llama factory model random initialization

@@ -12,48 +12,10 @@ cd $BASE_ROOT
 if [ $RUN_TILEARN -eq 1 ]; then
 
     if [ "$GPU_MEM" = "40G" ]; then
-
-        # llama factory model random initialization
-        export LF_MODEL_RANDOM_INIT=${LF_MODEL_RANDOM_INIT:-0}
-        export LF_UT_TEST=${LF_UT_TEST:-1}
-        export LF_UT_MODEL_PATH_PREFIX=${LF_UT_MODEL_PATH_PREFIX:-"../../models ||| /mnt/cfs/tilearn/pretrain_models"}
-        export LF_UT_DSYAML_PATH_PREFIX=${LF_UT_DSYAML_PATH_PREFIX:-"ds_z3_offload_config.json ||| ds_z3_offload_config.json"}
-        export LF_UT_DIS_GRAD_CKPT=${LF_UT_DIS_GRAD_CKPT:-0}
-        export LF_UT_MAX_LENGTH=${LF_UT_MAX_LENGTH:-1024}
-        export LF_UT_BS=${LF_UT_BS:-1}
-        export LF_UT_GRAD_ACC=${LF_UT_GRAD_ACC:-16}
-        export LF_UT_MAX_STEPS=${LF_UT_MAX_STEPS:-50}
-        export LF_UT_LOG_STEPS=${LF_UT_LOG_STEPS:-10}
-
-        export TILEARN_DEBUG=1
-	export TILEARN_HYBRID_MODE=${TILEARN_HYBRID_MODE:-'HunyuanMoe'}
-        export TILEARN_HYBRID_TP_SIZE=${TILEARN_HYBRID_TP_SIZE:-1}
-        export TILEARN_HYBRID_PP_SIZE=${TILEARN_HYBRID_PP_SIZE:-2}
-	export TILEARN_HYBRID_EP_SIZE=${TILEARN_HYBRID_EP_SIZE:-4}
-        export TILEARN_HYBRID_OFFLOAD=${TILEARN_HYBRID_OFFLOAD:-0}
-        export TILEARN_HYBRID_ZERO_STAGE=${TILEARN_HYBRID_ZERO_STAGE:-1}
+        sleep 1s
 
     elif [ $GPU_MEM = "80G" ]; then
-
-        # llama factory model random initialization
-        export LF_MODEL_RANDOM_INIT=${LF_MODEL_RANDOM_INIT:-0}
-        export LF_UT_TEST=${LF_UT_TEST:-1}
-        export LF_UT_MODEL_PATH_PREFIX=${LF_UT_MODEL_PATH_PREFIX:-"../../models ||| /mnt/cfs/tilearn/pretrain_models"}
-        export LF_UT_DSYAML_PATH_PREFIX=${LF_UT_DSYAML_PATH_PREFIX:-"ds_z3_offload_config.json ||| ds_z3_offload_config.json"}
-        export LF_UT_DIS_GRAD_CKPT=${LF_UT_DIS_GRAD_CKPT:-0}
-        export LF_UT_MAX_LENGTH=${LF_UT_MAX_LENGTH:-1024}
-        export LF_UT_BS=${LF_UT_BS:-1}
-        export LF_UT_GRAD_ACC=${LF_UT_GRAD_ACC:-8}
-        export LF_UT_MAX_STEPS=${LF_UT_MAX_STEPS:-50}
-        export LF_UT_LOG_STEPS=${LF_UT_LOG_STEPS:-10}
-
-        export TILEARN_DEBUG=1
-        export TILEARN_HYBRID_MODE=${TILEARN_HYBRID_MODE:-'HunyuanMoe'}
-        export TILEARN_HYBRID_TP_SIZE=${TILEARN_HYBRID_TP_SIZE:-1}
-        export TILEARN_HYBRID_PP_SIZE=${TILEARN_HYBRID_PP_SIZE:-2}
-        export TILEARN_HYBRID_EP_SIZE=${TILEARN_HYBRID_EP_SIZE:-2}
-        export TILEARN_HYBRID_OFFLOAD=${TILEARN_HYBRID_OFFLOAD:-0}
-        export TILEARN_HYBRID_ZERO_STAGE=${TILEARN_HYBRID_ZERO_STAGE:-1}
+        sleep 1s
 
     elif [ $GPU_MEM = "96G" ]; then
 
@@ -77,6 +39,10 @@ if [ $RUN_TILEARN -eq 1 ]; then
         export TILEARN_HYBRID_OFFLOAD=${TILEARN_HYBRID_OFFLOAD:-0}
         export TILEARN_HYBRID_ZERO_STAGE=${TILEARN_HYBRID_ZERO_STAGE:-1}
 
+    else
+        echo "Not support GPU_MEM:$GPU_MEM RUN_TILEARN:${RUN_TILEARN}"
+        exit 1
+
     fi
 
     #export TIACC_FASTER_ROPE=1
@@ -97,31 +63,10 @@ if [ $RUN_TILEARN -eq 1 ]; then
 elif [ $RUN_TILEARN -eq 0 ]; then
 
     if [ "$GPU_MEM" = "40G" ]; then
-        # llama factory model random initialization
-        export LF_MODEL_RANDOM_INIT=${LF_MODEL_RANDOM_INIT:-0}
-        export LF_UT_TEST=${LF_UT_TEST:-1}
-        export LF_UT_MODEL_PATH_PREFIX=${LF_UT_MODEL_PATH_PREFIX:-"../../models ||| /mnt/cfs/tilearn/pretrain_models"}
-        export LF_UT_DSYAML_PATH_PREFIX=${LF_UT_DSYAML_PATH_PREFIX:-"ds_z3_offload_config.json ||| ds_z3_offload_config.json"}
-        export LF_UT_DIS_GRAD_CKPT=${LF_UT_DIS_GRAD_CKPT:-0}
-        export LF_UT_MAX_LENGTH=${LF_UT_MAX_LENGTH:-4096}
-        export LF_UT_BS=${LF_UT_BS:-1}
-        export LF_UT_GRAD_ACC=${LF_UT_GRAD_ACC:-4}
-        export LF_UT_MAX_STEPS=${LF_UT_MAX_STEPS:-50}
-        export LF_UT_LOG_STEPS=${LF_UT_LOG_STEPS:-10}
+	sleep 1s
 
     elif [ "$GPU_MEM" = "80G" ]; then
-
-        # llama factory model random initialization
-        export LF_MODEL_RANDOM_INIT=${LF_MODEL_RANDOM_INIT:-0}
-        export LF_UT_TEST=${LF_UT_TEST:-1}
-        export LF_UT_MODEL_PATH_PREFIX=${LF_UT_MODEL_PATH_PREFIX:-"../../models ||| /mnt/cfs/tilearn/pretrain_models"}
-        export LF_UT_DSYAML_PATH_PREFIX=${LF_UT_DSYAML_PATH_PREFIX:-"ds_z3_offload_config.json ||| ds_z3_offload_config.json"}
-        export LF_UT_DIS_GRAD_CKPT=${LF_UT_DIS_GRAD_CKPT:-1}
-        export LF_UT_MAX_LENGTH=${LF_UT_MAX_LENGTH:-4096}
-        export LF_UT_BS=${LF_UT_BS:-1}
-        export LF_UT_GRAD_ACC=${LF_UT_GRAD_ACC:-4}
-        export LF_UT_MAX_STEPS=${LF_UT_MAX_STEPS:-50}
-        export LF_UT_LOG_STEPS=${LF_UT_LOG_STEPS:-10}
+        sleep 1s
 
     elif [ "$GPU_MEM" = "96G" ]; then
 
@@ -129,13 +74,19 @@ elif [ $RUN_TILEARN -eq 0 ]; then
         export LF_MODEL_RANDOM_INIT=${LF_MODEL_RANDOM_INIT:-0}
         export LF_UT_TEST=${LF_UT_TEST:-1}
         export LF_UT_MODEL_PATH_PREFIX=${LF_UT_MODEL_PATH_PREFIX:-"../../models ||| /mnt/cfs/tilearn/pretrain_models"}
-        export LF_UT_DSYAML_PATH_PREFIX=${LF_UT_DSYAML_PATH_PREFIX:-"ds_z3_offload_config.json ||| ds_z3_offload_config.json"}
+        export LF_UT_DSYAML_ORIGIN=${LF_UT_DSYAML_ORIGIN:-"not_set"}
+        export LF_UT_DSYAML_TARGET=${LF_UT_DSYAML_TARGET:-"../../utils/ds_config/ds_z3_offload_config.json"}
+        export LF_UT_DSYAML_PATH_PREFIX=${LF_UT_DSYAML_PATH_PREFIX:-"${LF_UT_DSYAML_ORIGIN} ||| ${LF_UT_DSYAML_TARGET}"}
         export LF_UT_DIS_GRAD_CKPT=${LF_UT_DIS_GRAD_CKPT:-1}
         export LF_UT_MAX_LENGTH=${LF_UT_MAX_LENGTH:-4096}
         export LF_UT_BS=${LF_UT_BS:-1}
         export LF_UT_GRAD_ACC=${LF_UT_GRAD_ACC:-4}
         export LF_UT_MAX_STEPS=${LF_UT_MAX_STEPS:-50}
         export LF_UT_LOG_STEPS=${LF_UT_LOG_STEPS:-10}
+
+    else
+        echo "Not support GPU_MEM:$GPU_MEM RUN_TILEARN:${RUN_TILEARN}"
+        exit 1
 
     fi
     LOG_NAME=GpuMem${GPU_MEM}_RandomInit${LF_MODEL_RANDOM_INIT}_UT${LF_UT_TEST}_DisGradCkpt${LF_UT_DIS_GRAD_CKPT}_MaxLength${LF_UT_MAX_LENGTH}_BS${LF_UT_BS}_GradAcc${LF_UT_GRAD_ACC}
