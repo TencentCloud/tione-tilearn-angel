@@ -17,8 +17,8 @@ export RUN_BASELINE=1
 export RUN_TILEARN=0
 
 datename=$(date +%Y%m%d-%H%M%S)
-echo $datename
-export BASE_LOG_PATH=${BASE_LOG_PATH:-"./log/${datename}-log_run_all_test_autozero/"}
+echo "run_all_test_autozero.sh $datename"
+export BASE_LOG_PATH="./log/${datename}-log_run_all_test_autozero/"
 
 export LF_UT_DSYAML_ORIGIN="not_set"
 export LF_UT_DSYAML_TARGET="../../utils/ds_config/ds_z3_offload_config.json"
@@ -37,8 +37,8 @@ export RUN_BASELINE=0
 export RUN_TILEARN=1
 
 datename=$(date +%Y%m%d-%H%M%S)
-echo $datename
-export BASE_LOG_PATH=${BASE_LOG_PATH:-"./log/${datename}-log_run_all_test_autozero/"}
+echo "run_all_test_autozero.sh $datename"
+export BASE_LOG_PATH="./log/${datename}-log_run_all_test_autozero/"
 
 export TILEARN_HYBRID_MODE='AutoZero'
 export TILEARN_HYBRID_AUTOZERO_SHARD_PARAM=1

@@ -1,6 +1,6 @@
 #sleep 4h
 datename=$(date +%Y%m%d-%H%M%S)
-echo $datename
+echo "run_all_test.sh $datename"
 
 ### Tilearn UT 
 export GPU_MEM=${GPU_MEM:-'96G'}

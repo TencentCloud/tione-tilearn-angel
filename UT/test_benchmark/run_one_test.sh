@@ -13,6 +13,6 @@ export LF_MODEL_RANDOM_INIT=1
 #bash run_one_test_tilearn.sh 1
 #bash run_one_test_tilearn.sh 2
 #bash run_one_test_tilearn.sh 3
-bash run_one_test_tilearn_autozero.sh 0
-bash run_one_test_tilearn_autozero.sh 1
+#bash run_one_test_tilearn_autozero.sh 0
+#bash run_one_test_tilearn_autozero.sh 1
 bash run_one_test_baseline.sh

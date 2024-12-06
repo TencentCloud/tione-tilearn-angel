@@ -71,6 +71,7 @@ do
 
     CMD="bash ./${SCRIPT}"
     ds_yaml_sed=${ds_yaml// ||| /_to_}
+    ds_yaml_sed=${ds_yaml_sed//not_set_to_..\/..\/utils\/ds_config\//_}
     LOG_PATH="${BASE_LOG_PATH}/${SCRIPT}.Tilearn${USE_TILEARN}_DSYAM${ds_yaml_sed}_BS${bs}_DisGradCkpt${dis_grad_ckpt}_GradACC${grad_acc}.log"
     echo "USE_TILEARN:${USE_TILEARN} - ${CMD} ${USE_TILEARN} > ${LOG_PATH} 2>&1"
 
