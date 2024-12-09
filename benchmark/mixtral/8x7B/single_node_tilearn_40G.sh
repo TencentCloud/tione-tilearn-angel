@@ -12,7 +12,7 @@ export LF_MODEL_RANDOM_INIT=1
 #export LF_UT_MODEL_PATH_PREFIX="../../models ||| /mnt/cfs/tilearn/pretrain_models"
 
 export TILEARN_DEBUG=1
-export TILEARN_HYBRID_MODE='HunyuanMoe'
+export TILEARN_HYBRID_MODE='MixtralMoe'
 export TILEARN_HYBRID_TP_SIZE=1
 export TILEARN_HYBRID_PP_SIZE=2
 export TILEARN_HYBRID_EP_SIZE=4  # 专家并行
